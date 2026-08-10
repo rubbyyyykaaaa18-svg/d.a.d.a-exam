@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D.A.D.A — Escape Hogwarts</title>
+<style>
+:root{--bg:#090e1b;--card:#131d32;--card2:#18253e;--gold:#d8b56a;--text:#f5f1e7;--muted:#aeb7ca;--ok:#70c99a;--bad:#df7777}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--text);font-family:Georgia,"Times New Roman",serif;background:radial-gradient(circle at 15% 10%,#263451 0,transparent 30%),radial-gradient(circle at 90% 85%,#202d48 0,transparent 30%),var(--bg)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.1;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:35px 35px}
+.wrap{width:min(920px,92%);margin:auto;padding:28px 0 60px}.hero{text-align:center;padding:10px 0 22px}.wand{font-size:52px}.eyebrow{letter-spacing:4px;color:var(--gold);font-size:.82rem}.hero h1{font-size:clamp(2.2rem,7vw,4.5rem);margin:8px 0 2px;letter-spacing:2px}.sub{color:var(--muted)}
+.card{background:linear-gradient(145deg,rgba(24,37,62,.97),rgba(13,21,38,.97));border:1px solid rgba(216,181,106,.28);border-radius:18px;padding:28px;box-shadow:0 18px 60px #0007;margin-top:16px}
+h2{margin:7px 0 14px;font-size:2rem}p{line-height:1.7}.quote{border-left:3px solid var(--gold);padding:12px 16px;background:#d8b56a0d;color:#e9dfca;font-style:italic}
+label.field{display:block;color:var(--muted);margin:14px 0 7px}input,select,textarea{width:100%;padding:13px;border:1px solid #36445f;border-radius:10px;background:#0c1426;color:var(--text);font:inherit;outline:none}
+button{border:0;border-radius:10px;padding:12px 18px;background:var(--gold);color:#171209;font:600 1rem Georgia;cursor:pointer;margin-top:15px}button:hover{opacity:.9;transform:translateY(-1px)}button.secondary{background:#2c3b5a;color:#fff}
+.progress{display:flex;align-items:center;gap:12px;margin:4px 0 15px}.bar{height:8px;flex:1;background:#09101e;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--gold);transition:.3s}.badge,.timer{font-size:.82rem;color:var(--muted);white-space:nowrap}.timer{color:var(--gold);font-weight:bold;font-variant-numeric:tabular-nums}
+.roomtag{color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-size:.8rem}.q{margin:22px 0 9px;line-height:1.5}.options{display:grid;gap:9px}.opt{padding:13px;border:1px solid #34425d;border-radius:10px;background:#0f192d;cursor:pointer}.opt:hover{border-color:var(--gold)}.opt input{width:auto;margin-right:9px;accent-color:var(--gold)}
+.feedback{display:none;margin-top:14px;padding:12px;border-radius:10px;line-height:1.5}.feedback.ok{display:block;background:#70c99a18;border:1px solid #70c99a55;color:#bfead3}.feedback.bad{display:block;background:#df777718;border:1px solid #df777755;color:#f2bebe}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.hidden{display:none!important}.center{text-align:center}.big{font-size:3rem}.code{font-size:2rem;letter-spacing:7px;color:var(--gold);font-weight:bold}.small{font-size:.88rem;color:var(--muted)}
+.resultbox{margin-top:18px;padding:18px;border:1px solid #d8b56a44;border-radius:12px;background:#d8b56a0b}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero"><div class="wand">🪄</div><div class="eyebrow">DEFENCE AGAINST THE DARK ARTS</div><h1>ESCAPE HOGWARTS</h1><div class="sub">The Cursed Classroom</div></header>
+
+<section id="start" class="card">
+<h2>Identitas Penyihir</h2>
+<p>Masukkan identitasmu sebelum memasuki ruang kelas D.A.D.A. Identitas ini akan digunakan pada hasil akhir permainan.</p>
+<label class="field" for="chr">Chr'Nn</label>
+<input id="chr" placeholder="Masukkan Chr'Nn">
+<label class="field" for="house">Asrama</label>
+<select id="house"><option value="">— Pilih Asrama —</option><option>Gryffindor</option><option>Hufflepuff</option><option>Ravenclaw</option><option>Slytherin</option></select>
+<div class="quote">“Only those who understand defence may leave.”</div>
+<button onclick="startGame()">Enter the Classroom →</button>
+</section>
+
+<section id="game" class="hidden">
+<div class="progress"><span class="badge" id="badge">ROOM 1 / 4</span><div class="bar"><i id="bar"></i></div><span class="timer" id="timer">25:00</span></div>
+
+<div id="r1" class="card">
+<div class="roomtag">Room I — The Dark Arts Archive</div><h2>Classify the Magic</h2>
+<p>Sebelum pintu pertama terbuka, kamu harus memahami spektrum bahaya sihir.</p>
+<div class="q"><b>1.</b> Sihir yang umumnya digunakan untuk mengganggu atau mengusili target termasuk...</div>
+<div class="options"><label class="opt"><input type="radio" name="q1" value="a"> Jinx</label><label class="opt"><input type="radio" name="q1" value="b"> Hex</label><label class="opt"><input type="radio" name="q1" value="c"> Curse</label></div>
+<div class="q"><b>2.</b> Kutukan yang ditujukan untuk mencelakai secara serius termasuk...</div>
+<div class="options"><label class="opt"><input type="radio" name="q2" value="a"> Jinx</label><label class="opt"><input type="radio" name="q2" value="b"> Hex</label><label class="opt"><input type="radio" name="q2" value="c"> Curse</label></div>
+<div id="f1" class="feedback"></div><button onclick="check(1)">Unlock Room I</button>
+</div>
+
+<div id="r2" class="card hidden">
+<div class="roomtag">Room II — The Creature's Den</div><h2>Identify the Creature</h2><p>Kenali makhluk dari ciri-cirinya.</p>
+<div class="q"><b>1.</b> Mengambil wujud dari ketakutan terbesar seseorang.</div>
+<div class="options"><label class="opt"><input type="radio" name="q3" value="a"> Dementor</label><label class="opt"><input type="radio" name="q3" value="b"> Boggart</label><label class="opt"><input type="radio" name="q3" value="c"> Hinkypunk</label></div>
+<div class="q"><b>2.</b> Menguras kebahagiaan dan menimbulkan keputusasaan.</div>
+<div class="options"><label class="opt"><input type="radio" name="q4" value="a"> Red Cap</label><label class="opt"><input type="radio" name="q4" value="b"> Grindylow</label><label class="opt"><input type="radio" name="q4" value="c"> Dementor</label></div>
+<div class="q"><b>3.</b> Dapat menyesatkan pelancong dengan petunjuk/cahaya yang menipu.</div>
+<div class="options"><label class="opt"><input type="radio" name="q5" value="a"> Hinkypunk</label><label class="opt"><input type="radio" name="q5" value="b"> Boggart</label><label class="opt"><input type="radio" name="q5" value="c"> Grindylow</label></div>
+<div id="f2" class="feedback"></div><button onclick="check(2)">Unlock Room II</button>
+</div>
+
+<div id="r3" class="card hidden">
+<div class="roomtag">Room III — The Defence Chamber</div><h2>Choose Your Defence</h2><p>Pilih respons yang paling tepat. Pertahanan bukan tentang mantra paling kuat.</p>
+<div class="q"><b>1.</b> Sebuah mantra melaju langsung ke arahmu.</div>
+<div class="options"><label class="opt"><input type="radio" name="q6" value="a"> Protego</label><label class="opt"><input type="radio" name="q6" value="b"> Crucio</label><label class="opt"><input type="radio" name="q6" value="c"> Imperio</label></div>
+<div class="q"><b>2.</b> Lawan masih memegang tongkat dan kamu ingin menghentikan duel tanpa cedera berlebihan.</div>
+<div class="options"><label class="opt"><input type="radio" name="q7" value="a"> Expelliarmus</label><label class="opt"><input type="radio" name="q7" value="b"> Avada Kedavra</label><label class="opt"><input type="radio" name="q7" value="c"> Crucio</label></div>
+<div class="q"><b>3.</b> Kamu membutuhkan waktu untuk menjaga jarak atau melarikan diri.</div>
+<div class="options"><label class="opt"><input type="radio" name="q8" value="a"> Imperio</label><label class="opt"><input type="radio" name="q8" value="b"> Impedimenta</label><label class="opt"><input type="radio" name="q8" value="c"> Crucio</label></div>
+<div id="f3" class="feedback"></div><button onclick="check(3)">Unlock Room III</button>
+</div>
+
+<div id="r4" class="card hidden">
+<div class="roomtag">Final Room — The Last Defence</div><h2>The Final Decision</h2>
+<p>Semua pintu telah kamu lewati. Kini ujian terakhir bukan tentang menghafal mantra, melainkan tentang mengambil keputusan yang tepat.</p>
+<div class="quote">Seorang penyihir tidak dikenal menyerangmu di koridor. Serangan pertama dapat kamu tahan. Ia masih memegang tongkat dan mulai mendekat. Kamu menyadari bahwa kamu tidak akan mampu memenangkan duel secara langsung.</div>
+<div class="q"><b>1.</b> Apa urutan pertahanan yang paling masuk akal?</div>
+<div class="options"><label class="opt"><input type="radio" name="q9" value="a"> Protego → Expelliarmus → Impedimenta bila perlu → mencari jalan aman</label><label class="opt"><input type="radio" name="q9" value="b"> Crucio → Avada Kedavra → mengejar lawan</label><label class="opt"><input type="radio" name="q9" value="c"> Diam di tempat → menerima serangan</label></div>
+<div class="q"><b>2.</b> Jika lawan jauh lebih kuat, apa keputusan pertahanan yang paling bijaksana?</div>
+<div class="options"><label class="opt"><input type="radio" name="q10" value="a"> Terus menyerang sampai lawan kalah</label><label class="opt"><input type="radio" name="q10" value="b"> Menggunakan kutukan terkuat yang diketahui</label><label class="opt"><input type="radio" name="q10" value="c"> Bertahan, mencari kesempatan melarikan diri, dan meminta bantuan</label></div>
+<div class="q"><b>3.</b> Mengapa pilihan tersebut sesuai dengan prinsip D.A.D.A?</div>
+<textarea id="reflection" placeholder="Jawab dalam 2–3 kalimat..."></textarea>
+<div id="f4" class="feedback"></div><button onclick="finish()">Open the Final Door</button>
+</div>
+
+<div id="result" class="card hidden center">
+<div class="big">🏆</div><h2 id="resultTitle">You Escaped Hogwarts!</h2>
+<p id="resultText"></p>
+<div class="resultbox"><div class="small">FINAL SCORE</div><div class="score" id="score">0 / 10</div><div class="code" id="code">ESCAPED</div></div>
+<p class="small">Simpan hasil ini sebagai bukti bahwa kamu berhasil menyelesaikan tantangan D.A.D.A.</p>
+<button class="secondary" onclick="location.reload()">Play Again</button>
+</div>
+</section>
+</div>
+
+<script>
+let score=0, room=1, time=1500, timerId, student="", house="";
+const answers={1:["a","c"],2:["b","c","a"],3:["a","a","b"],4:["a","c"]};
+const roomQs={1:2,2:3,3:3,4:2};
+
+function startGame(){
+  student=document.getElementById("chr").value.trim(); house=document.getElementById("house").value;
+  if(!student||!house){alert("Silakan isi Chr'Nn dan pilih Asrama terlebih dahulu.");return;}
+  document.getElementById("start").classList.add("hidden"); document.getElementById("game").classList.remove("hidden");
+  timerId=setInterval(tick,1000); updateProgress();
+}
+function tick(){
+  time--; if(time<0){time=0;clearInterval(timerId); alert("Waktu habis. Ujian D.A.D.A berakhir."); location.reload();}
+  let m=Math.floor(time/60),s=time%60; document.getElementById("timer").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+function val(name){let x=document.querySelector(`input[name="${name}"]:checked`);return x?x.value:null}
+function check(n){
+  let ok=true; answers[n].forEach((a,i)=>{if(val("q"+(n===1?i+1:n===2?i+3:n===3?i+6:9))!==a)ok=false});
+  let f=document.getElementById("f"+n);
+  if(ok){score+=answers[n].length;f.className="feedback ok";f.textContent="✓ Tepat. Kunci ruangan terbuka.";document.querySelector("#r"+n+" button").disabled=true;setTimeout(()=>next(n),650)}
+  else{f.className="feedback bad";f.textContent="✕ Belum tepat. Periksa kembali materi D.A.D.A dan coba lagi."}
+}
+function next(n){
+  document.getElementById("r"+n).classList.add("hidden");
+  let nn=n+1; document.getElementById("r"+nn).classList.remove("hidden");room=nn;updateProgress();
+}
+function updateProgress(){document.getElementById("badge").textContent=`ROOM ${room} / 4`;document.getElementById("bar").style.width=((room-1)/3*100)+"%";}
+function finish(){
+  let ok=val("q9")==="a"&&val("q10")==="c"&&document.getElementById("reflection").value.trim().length>=20;
+  let f=document.getElementById("f4");
+  if(!ok){f.className="feedback bad";f.textContent="✕ Jawaban belum memenuhi syarat. Pilih keputusan yang paling defensif dan tulis refleksi minimal 20 karakter.";return;}
+  score+=2;clearInterval(timerId);f.className="feedback ok";f.textContent="✓ Final Door unlocked.";
+  document.getElementById("r4").classList.add("hidden");document.getElementById("result").classList.remove("hidden");
+  document.getElementById("score").textContent=score+" / 10";
+  document.getElementById("resultText").innerHTML=`Selamat, <b>${escapeHtml(student)}</b> dari <b>${escapeHtml(house)}</b>.<br>Kamu berhasil melewati semua ruangan dan membuktikan bahwa kamu memahami prinsip pertahanan.`;
+  document.getElementById("bar").style.width="100%";document.getElementById("badge").textContent="COMPLETED";
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+</script>
+</body>
+</html>
